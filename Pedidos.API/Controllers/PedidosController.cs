@@ -43,14 +43,14 @@ namespace Pedidos.API.Controllers
             return Ok(pedido);
         }
 
-        [HttpPost("{id}/items")]
+        [HttpPost("{id}/itens")]
         public async Task<ActionResult<PedidoReadDTO>> AddItemPedido(Guid id, Guid produtoId, int quantidade)
         {
             var pedido = await _pedidoService.AddItemPedido(id, produtoId, quantidade);
             return Ok(pedido);
         }
 
-        [HttpDelete("{id}/items/{produtoId}")]
+        [HttpDelete("{id}/itens/{produtoId}")]
         public async Task<ActionResult<PedidoReadDTO>> RemoveItemPedido(Guid id, Guid produtoId)
         {
             var pedido = await _pedidoService.RemoveItemPedido(id, produtoId);
