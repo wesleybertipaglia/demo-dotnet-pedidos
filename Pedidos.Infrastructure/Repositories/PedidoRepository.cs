@@ -90,9 +90,13 @@ namespace Pedidos.Infrastructure.Repositories
 
         public async Task<Pedido> RemoveItemPedido(Guid id, Guid produtoId)
         {
-            var pedido = await _context.Pedidos.FindAsync(id) ?? throw new Exception("Pedido não encontrado");
+            var pedido = await _context.Pedidos.Include(p => p.ItensPedidos).SingleOrDefaultAsync(p => p.Id == id)
+                ?? throw new Exception("Pedido não encontrado");
+
             var produto = await _context.Produtos.FindAsync(produtoId) ?? throw new Exception("Produto não encontrado");
-            var itemPedido = pedido.ItensPedidos.FirstOrDefault(i => i.Id == produtoId) ?? throw new Exception("Item não encontrado");
+
+            var itemPedido = pedido.ItensPedidos.FirstOrDefault(i => i.Produto.Id == produtoId)
+                ?? throw new Exception("Item não encontrado");
 
             if (pedido.Status == StatusPedido.Fechado)
                 throw new Exception("Não é possível remover itens de um pedido fechado");
@@ -101,5 +105,6 @@ namespace Pedidos.Infrastructure.Repositories
             await _context.SaveChangesAsync();
             return pedido;
         }
+
     }
 }
