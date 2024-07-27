@@ -2,6 +2,7 @@ using Pedidos.Domain.Interfaces;
 using Pedidos.Domain.Entities;
 using Pedidos.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Pedidos.Infrastructure.Exceptions;
 
 namespace Pedidos.Infrastructure.Repositories
 {
@@ -22,7 +23,7 @@ namespace Pedidos.Infrastructure.Repositories
         public async Task<Produto> GetProdutoById(Guid id)
         {
             var produto = await _context.Produtos.FindAsync(id);
-            if (produto == null) throw new Exception("Produto não encontrado");
+            if (produto == null) throw new NotFoundException("Produto não encontrado");
             return produto;
         }
 
@@ -44,7 +45,7 @@ namespace Pedidos.Infrastructure.Repositories
         public async Task DeleteProduto(Guid id)
         {
             var produto = await _context.Produtos.FindAsync(id);
-            if (produto == null) throw new Exception("Produto não encontrado");
+            if (produto == null) throw new NotFoundException("Produto não encontrado");
 
             _context.Produtos.Remove(produto);
             await _context.SaveChangesAsync();

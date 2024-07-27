@@ -3,6 +3,7 @@ using Pedidos.Domain.Entities;
 using Pedidos.Domain.Enums;
 using Pedidos.Domain.Interfaces;
 using Pedidos.Infrastructure.Data;
+using Pedidos.Infrastructure.Exceptions;
 
 namespace Pedidos.Infrastructure.Repositories
 {
@@ -27,7 +28,7 @@ namespace Pedidos.Infrastructure.Repositories
         {
             var pedido = await _context.Pedidos.Include(p => p.ItensPedidos)
                 .ThenInclude(i => i.Produto).SingleOrDefaultAsync(p => p.Id == id)
-                ?? throw new Exception("Pedido não encontrado");
+                ?? throw new NotFoundException("Pedido não encontrado");
 
             return pedido;
         }
@@ -43,10 +44,10 @@ namespace Pedidos.Infrastructure.Repositories
         {
             var pedido = await _context.Pedidos.Include(p => p.ItensPedidos)
                 .ThenInclude(i => i.Produto).SingleOrDefaultAsync(p => p.Id == id)
-                ?? throw new Exception("Pedido não encontrado");
+                ?? throw new NotFoundException("Pedido não encontrado");
 
             if (pedido.ItensPedidos.Count == 0)
-                throw new Exception("Para fechar um pedido, é necessário adicionar itens");
+                throw new BadRequestException("Para fechar um pedido, é necessário adicionar itens");
 
             pedido.Status = StatusPedido.Fechado;
             await _context.SaveChangesAsync();
@@ -63,15 +64,15 @@ namespace Pedidos.Infrastructure.Repositories
         public async Task<Pedido> AddItemPedido(Guid id, Guid produtoId, int quantidade)
         {
             var pedido = await _context.Pedidos.Include(p => p.ItensPedidos).SingleOrDefaultAsync(p => p.Id == id)
-                ?? throw new Exception("Pedido não encontrado");
+                ?? throw new NotFoundException("Pedido não encontrado");
 
             var produto = await _context.Produtos.FindAsync(produtoId) ?? throw new Exception("Produto não encontrado");
 
             if (pedido.Status == StatusPedido.Fechado)
-                throw new Exception("Não é possível adicionar itens a um pedido fechado");
+                throw new BadRequestException("Não é possível adicionar itens a um pedido fechado");
 
             if (quantidade <= 0)
-                throw new Exception("A quantidade deve ser maior que zero");
+                throw new BadRequestException("A quantidade deve ser maior que zero");
 
             var itemExiste = pedido.ItensPedidos.FirstOrDefault(i => i.Produto == produto);
 
@@ -91,15 +92,16 @@ namespace Pedidos.Infrastructure.Repositories
         public async Task<Pedido> RemoveItemPedido(Guid id, Guid produtoId)
         {
             var pedido = await _context.Pedidos.Include(p => p.ItensPedidos).SingleOrDefaultAsync(p => p.Id == id)
-                ?? throw new Exception("Pedido não encontrado");
+                ?? throw new NotFoundException("Pedido não encontrado");
 
-            var produto = await _context.Produtos.FindAsync(produtoId) ?? throw new Exception("Produto não encontrado");
+            var produto = await _context.Produtos.FindAsync(produtoId)
+                ?? throw new NotFoundException("Produto não encontrado");
 
             var itemPedido = pedido.ItensPedidos.FirstOrDefault(i => i.Produto.Id == produtoId)
-                ?? throw new Exception("Item não encontrado");
+                ?? throw new NotFoundException("Item não encontrado");
 
             if (pedido.Status == StatusPedido.Fechado)
-                throw new Exception("Não é possível remover itens de um pedido fechado");
+                throw new BadRequestException("Não é possível remover itens de um pedido fechado");
 
             pedido.ItensPedidos.Remove(itemPedido);
             await _context.SaveChangesAsync();
