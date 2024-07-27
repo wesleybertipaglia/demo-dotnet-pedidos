@@ -2,6 +2,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Pedidos.Domain\Pedidos.Domain.csproj" />
+    <ProjectReference Include="..\Pedidos.Application\Pedidos.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.7" />
   </ItemGroup>
 
   <PropertyGroup>
