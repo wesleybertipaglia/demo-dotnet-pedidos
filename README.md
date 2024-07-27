@@ -20,7 +20,7 @@ A maneira mais fácil de executar a aplicação é com Docker.
 docker-compose up -d
 ```
 
-> A aplicação estará disponível em [https://localhost:5077](https://localhost:5077).
+> A aplicação estará disponível em [https://localhost:5000](https://localhost:5000).
 
 ### Executando com .NET CLI
 
@@ -34,7 +34,7 @@ Como alternativa, você pode executar a aplicação com a CLI do .NET.
 dotnet run --project API/API.csproj
 ```
 
-> A aplicação estará disponível em [https://localhost:5077](https://localhost:5077).
+> A aplicação estará disponível em [https://localhost:5000](https://localhost:5000).
 
 ## Recursos
 
