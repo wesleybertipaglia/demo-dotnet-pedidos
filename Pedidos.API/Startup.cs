@@ -3,6 +3,7 @@ using Pedidos.Application.Services;
 using Pedidos.Domain.Interfaces;
 using Pedidos.Infrastructure.Extensions;
 using Pedidos.Infrastructure.Repositories;
+using Pedidos.API.Exceptions;
 using AutoMapper;
 
 namespace Pedidos.API
@@ -40,6 +41,7 @@ namespace Pedidos.API
 
             app.UseRouting();
             app.UseAuthorization();
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
