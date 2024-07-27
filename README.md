@@ -81,27 +81,25 @@ classDiagram
 
 ### Produtos
 
-- `POST /api/produtos`: Adiciona um novo produto.
-- `GET /api/produtos`: Retorna todos os produtos.
-- `GET /api/produtos/{id}`: Retorna um produto por ID.
-- `PUT /api/produtos/{id}`: Atualiza um produto por ID.
-- `DELETE /api/produtos/{id}`: Deleta um produto por ID.
+- `POST /api/Produtos`: Adiciona um novo produto.
+- `GET /api/Produtos`: Retorna todos os produtos.
+- `GET /api/Produtos/{id}`: Retorna um produto por ID.
+- `PUT /api/Produtos/{id}`: Atualiza um produto por ID.
+- `DELETE /api/Produtos/{id}`: Deleta um produto por ID.
 
 ### Pedidos
 
-- `POST /api/pedidos`: Adiciona um novo pedido.
-- `GET /api/pedidos`: Retorna todos os pedidos.
-- `GET /api/pedidos/{id}`: Retorna um pedido por ID.
-- `DELETE /api/pedidos/{id}`: Deleta um pedido por ID.
-- `POST /api/pedidos/{id}/close`: Fecha um pedido.
+- `POST /api/Pedidos`: Adiciona um novo pedido.
+- `GET /api/Pedidos`: Retorna todos os pedidos.
+- `GET /api/Pedidos/{id}`: Retorna um pedido por ID.
+- `DELETE /api/Pedidos/{id}`: Deleta um pedido por ID.
+- `POST /api/Pedidos/{id}/close`: Fecha um pedido.
 
 ### Itens do Pedido
 
-- `POST /api/pedidos/{id}/itens`: Adiciona um novo item ao pedido.
-- `GET /api/pedidos/{id}/itens`: Retorna todos os itens do pedido.
-- `GET /api/pedidos/{id}/itens/{produtoId}`: Retorna um item do pedido pelo ID do produto.
-- `PUT /api/pedidos/{id}/itens/{produtoId}`: Atualiza um item do pedido pelo ID do produto.
-- `DELETE /api/pedidos/{id}/itens/{produtoId}`: Deleta um item do pedido pelo ID do produto.
+- `POST /api/Pedidos/{id}/itens`: Adiciona um item ao pedido.
+- `PUT /api/Pedidos/{id}/itens`: Atualiza um item do pedido.
+- `DELETE /api/Pedidos/{id}/itens`: Deleta um item do pedido.
 
 ## Licença
 

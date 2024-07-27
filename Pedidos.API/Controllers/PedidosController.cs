@@ -9,10 +9,12 @@ namespace Pedidos.API.Controllers
     public class PedidosController : ControllerBase
     {
         private readonly IPedidoService _pedidoService;
+        private readonly IItemPedidoService _itemPedidoService;
 
-        public PedidosController(IPedidoService pedidoService)
+        public PedidosController(IPedidoService pedidoService, IItemPedidoService itemPedidoService)
         {
             _pedidoService = pedidoService;
+            _itemPedidoService = itemPedidoService;
         }
 
         [HttpGet]
@@ -43,25 +45,32 @@ namespace Pedidos.API.Controllers
             return Ok(pedido);
         }
 
-        [HttpPost("{id}/itens")]
-        public async Task<ActionResult<PedidoReadDTO>> AddItemPedido(Guid id, Guid produtoId, int quantidade)
-        {
-            var pedido = await _pedidoService.AddItemPedido(id, produtoId, quantidade);
-            return Ok(pedido);
-        }
-
-        [HttpDelete("{id}/itens/{produtoId}")]
-        public async Task<ActionResult<PedidoReadDTO>> RemoveItemPedido(Guid id, Guid produtoId)
-        {
-            var pedido = await _pedidoService.RemoveItemPedido(id, produtoId);
-            return Ok(pedido);
-        }
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePedido(Guid id)
         {
             await _pedidoService.DeletePedido(id);
             return NoContent();
+        }
+
+        [HttpPost("{id}/itens")]
+        public async Task<ActionResult<PedidoReadDTO>> AddItemPedido(Guid id, ItemPedidoAddDTO itemPedidoAddDTO)
+        {
+            var pedido = await _itemPedidoService.AddItemPedido(id, itemPedidoAddDTO);
+            return Ok(pedido);
+        }
+
+        [HttpPut("{id}/itens")]
+        public async Task<ActionResult<PedidoReadDTO>> UpdateItemPedido(Guid id, ItemPedidoUpdateDTO itemPedidoUpdateDTO)
+        {
+            var pedido = await _itemPedidoService.UpdateItemPedido(id, itemPedidoUpdateDTO);
+            return Ok(pedido);
+        }
+
+        [HttpDelete("{id}/itens")]
+        public async Task<ActionResult<PedidoReadDTO>> RemoveItemPedido(Guid id, ItemPedidoRemoveDTO itemPedidoRemoveDTO)
+        {
+            var pedido = await _itemPedidoService.RemoveItemPedido(id, itemPedidoRemoveDTO);
+            return Ok(pedido);
         }
     }
 }

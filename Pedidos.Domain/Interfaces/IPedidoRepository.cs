@@ -9,7 +9,5 @@ namespace Pedidos.Domain.Interfaces
         Task<Pedido> CreatePedido();
         Task<Pedido> ClosePedido(Guid id);
         Task DeletePedido(Guid id);
-        Task<Pedido> AddItemPedido(Guid id, Guid produtoId, int quantidade);
-        Task<Pedido> RemoveItemPedido(Guid id, Guid produtoId);
     }
 }

@@ -1,4 +1,4 @@
 namespace Pedidos.Application.DTOs
 {
-    public record ItemPedidoAddDTO(Guid ProdutoId, int Quantidade);
+    public record ItemPedidoAddDTO(Guid ProdutoId, int Quantidade = 1);
 }

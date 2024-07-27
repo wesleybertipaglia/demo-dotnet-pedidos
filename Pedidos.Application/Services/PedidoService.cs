@@ -40,18 +40,6 @@ namespace Pedidos.Application.Services
             return _mapper.Map<PedidoReadDTO>(pedido);
         }
 
-        public async Task<PedidoReadDTO> AddItemPedido(Guid id, Guid produtoId, int quantidade)
-        {
-            var pedido = await _pedidoRepository.AddItemPedido(id, produtoId, quantidade);
-            return _mapper.Map<PedidoReadDTO>(pedido);
-        }
-
-        public async Task<PedidoReadDTO> RemoveItemPedido(Guid id, Guid produtoId)
-        {
-            var pedido = await _pedidoRepository.RemoveItemPedido(id, produtoId);
-            return _mapper.Map<PedidoReadDTO>(pedido);
-        }
-
         public async Task DeletePedido(Guid id)
         {
             await _pedidoRepository.DeletePedido(id);

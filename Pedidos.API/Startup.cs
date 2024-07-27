@@ -26,8 +26,12 @@ namespace Pedidos.API
 
             services.AddScoped<IProdutoService, ProdutoService>();
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
+
             services.AddScoped<IPedidoService, PedidoService>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();
+
+            services.AddScoped<IItemPedidoService, ItemPedidoService>();
+            services.AddScoped<IItemPedidoRepository, ItemPedidoRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
