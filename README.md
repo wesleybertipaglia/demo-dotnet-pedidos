@@ -70,7 +70,6 @@ classDiagram
         int Quantidade
         float Preco
         Produto Produto
-        Pedido Pedido
     }
 
     Pedido "1" --> "n" ItemPedido : contém
