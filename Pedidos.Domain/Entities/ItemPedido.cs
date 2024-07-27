@@ -6,6 +6,7 @@ namespace Pedidos.Domain.Entities
         public int Quantidade { get; set; }
         public float Preco { get; set; }
         public float Total => Quantidade * Preco;
+        public Pedido Pedido { get; set; } = null!;
         public Produto Produto { get; set; } = null!;
 
         public ItemPedido()
@@ -13,11 +14,12 @@ namespace Pedidos.Domain.Entities
             Id = Guid.NewGuid();
         }
 
-        public ItemPedido(int quantidade, float preco, Produto produto)
+        public ItemPedido(int quantidade, float preco, Produto produto, Pedido pedido)
         {
             Id = Guid.NewGuid();
             Quantidade = quantidade;
             Preco = preco;
+            Pedido = pedido;
             Produto = produto;
         }
     }

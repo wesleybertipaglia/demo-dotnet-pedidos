@@ -82,7 +82,7 @@ namespace Pedidos.Infrastructure.Repositories
                 return pedido;
             }
 
-            var itemPedido = new ItemPedido(quantidade, produto.Preco, produto);
+            var itemPedido = new ItemPedido(quantidade, produto.Preco, produto, pedido);
             _context.ItensPedidos.Add(itemPedido);
             await _context.SaveChangesAsync();
             return pedido;
