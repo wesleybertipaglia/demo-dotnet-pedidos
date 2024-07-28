@@ -16,10 +16,13 @@ namespace Pedidos.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<PedidoReadDTO>> GetAllPedidos()
+        public async Task<PaginacaoResultDTO<PedidoReadDTO>> GetAllPedidos(int pageNumber, int pageSize)
         {
-            var pedidos = await _pedidoRepository.GetAllPedidos();
-            return _mapper.Map<IEnumerable<PedidoReadDTO>>(pedidos);
+            var (pedidos, totalItems) = await _pedidoRepository.GetAllPedidos(pageNumber, pageSize);
+            var pedidosDto = _mapper.Map<IEnumerable<PedidoReadDTO>>(pedidos);
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            return new PaginacaoResultDTO<PedidoReadDTO>(pedidosDto, totalItems, pageNumber, pageSize, totalPages);
         }
 
         public async Task<PedidoReadDTO> GetPedidoById(Guid id)

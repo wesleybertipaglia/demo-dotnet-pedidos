@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Pedidos.Application.DTOs;
 using Pedidos.Application.Interfaces;
@@ -18,10 +19,12 @@ namespace Pedidos.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PedidoReadDTO>>> GetAllPedidos()
+        public async Task<IActionResult> GetAllPedidos(int pageNumber = 1, int pageSize = 10)
         {
-            var pedidos = await _pedidoService.GetAllPedidos();
-            return Ok(pedidos);
+            var paginacaoResult = await _pedidoService.GetAllPedidos(pageNumber, pageSize);
+            Response.Headers["X-Pagination"] = JsonSerializer.Serialize(paginacaoResult);
+
+            return Ok(paginacaoResult.Items);
         }
 
         [HttpGet("{id}")]

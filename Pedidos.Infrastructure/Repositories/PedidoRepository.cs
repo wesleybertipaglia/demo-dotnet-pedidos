@@ -16,12 +16,11 @@ namespace Pedidos.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Pedido>> GetAllPedidos()
+        public async Task<(IEnumerable<Pedido> Pedidos, int TotalItems)> GetAllPedidos(int pageNumber, int pageSize)
         {
-            var pedidos = await _context.Pedidos
-                .Include(p => p.ItensPedidos).ThenInclude(i => i.Produto).ToListAsync();
-
-            return pedidos;
+            var totalItems = await _context.Pedidos.CountAsync();
+            var pedidos = await _context.Pedidos.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            return (pedidos, totalItems);
         }
 
         public async Task<Pedido> GetPedidoById(Guid id)

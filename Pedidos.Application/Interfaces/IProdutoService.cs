@@ -4,7 +4,7 @@ namespace Pedidos.Application.Interfaces
 {
     public interface IProdutoService
     {
-        Task<IEnumerable<ProdutoReadDTO>> GetAllProdutos();
+        Task<PaginacaoResultDTO<ProdutoReadDTO>> GetAllProdutos(int pageNumber, int pageSize);
         Task<ProdutoReadDTO> GetProdutoById(Guid id);
         Task<ProdutoReadDTO> CreateProduto(ProdutoCreateDTO produtoCreateDTO);
         Task<ProdutoReadDTO> UpdateProduto(Guid id, ProdutoUpdateDTO produtoUpdateDTO);

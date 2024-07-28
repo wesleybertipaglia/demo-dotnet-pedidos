@@ -4,7 +4,7 @@ namespace Pedidos.Application.Interfaces
 {
     public interface IPedidoService
     {
-        Task<IEnumerable<PedidoReadDTO>> GetAllPedidos();
+        Task<PaginacaoResultDTO<PedidoReadDTO>> GetAllPedidos(int pageNumber, int pageSize);
         Task<PedidoReadDTO> GetPedidoById(Guid id);
         Task<PedidoReadDTO> CreatePedido();
         Task<PedidoReadDTO> ClosePedido(Guid id);

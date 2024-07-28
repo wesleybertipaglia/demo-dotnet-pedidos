@@ -4,7 +4,7 @@ namespace Pedidos.Domain.Interfaces
 {
     public interface IProdutoRepository
     {
-        Task<IEnumerable<Produto>> GetAllProdutos();
+        Task<(IEnumerable<Produto> Produtos, int TotalItems)> GetAllProdutos(int pageNumber, int pageSize);
         Task<Produto> GetProdutoById(Guid id);
         Task<Produto> CreateProduto(Produto produto);
         Task<Produto> UpdateProduto(Produto produto);

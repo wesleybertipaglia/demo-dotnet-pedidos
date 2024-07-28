@@ -38,14 +38,19 @@ dotnet run --project API/API.csproj
 
 ## Recursos
 
-O aplicativo inclui as seguintes funcionalidades:
+A aplicação inclui os seguintes recursos:
 
 - Arquitetura limpa e DDD
-- Entity Framework Core
-- Entity Framework Core InMemory
+- ORM com Entity Framework Core
+- Banco de dados em memória com Entity Framework Core
+- Paginação e Filtros
+- Validação de requisições
+- Tratamento de exceções
+- Logging
+- Mapeamento de entidades com AutoMapper
+- Documentação com Swagger
 - Testes unitários com xUnit
-- Swagger UI
-- Dockerfile and docker-compose.yml
+- Containerização com Docker
 
 ## Diagrama Entidade Relacionamento
 
