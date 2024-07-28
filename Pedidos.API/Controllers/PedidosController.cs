@@ -18,6 +18,15 @@ namespace Pedidos.API.Controllers
             _itemPedidoService = itemPedidoService;
         }
 
+        /// <summary>
+        /// Retorna todos os pedidos com base nos parâmetros fornecidos.
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="totalMin"></param>
+        /// <param name="totalMax"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns>Lista paginada de pedidos.</returns>
         [HttpGet]
         public async Task<IActionResult> GetAllPedidos(string? status, float? totalMin, float? totalMax, int pageNumber = 1, int pageSize = 10)
         {
@@ -27,6 +36,11 @@ namespace Pedidos.API.Controllers
             return Ok(paginacaoResult.Items);
         }
 
+        /// <summary>
+        /// Retorna um pedido com base no ID fornecido.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Pedido.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<PedidoReadDTO>> GetPedidoById(Guid id)
         {
@@ -34,6 +48,10 @@ namespace Pedidos.API.Controllers
             return Ok(pedido);
         }
 
+        /// <summary>
+        /// Cria um novo pedido.
+        /// </summary>
+        /// <returns>Pedido.</returns>
         [HttpPost]
         public async Task<ActionResult<PedidoReadDTO>> CreatePedido()
         {
@@ -41,6 +59,11 @@ namespace Pedidos.API.Controllers
             return CreatedAtAction(nameof(GetPedidoById), new { id = pedido.Id }, pedido);
         }
 
+        /// <summary>
+        /// Fecha um pedido com base no ID fornecido.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Pedido.</returns>
         [HttpPost("{id}/close")]
         public async Task<ActionResult<PedidoReadDTO>> ClosePedido(Guid id)
         {
@@ -48,6 +71,11 @@ namespace Pedidos.API.Controllers
             return Ok(pedido);
         }
 
+        /// <summary>
+        /// Deleta um pedido com base no ID fornecido.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Pedido.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePedido(Guid id)
         {
@@ -55,6 +83,12 @@ namespace Pedidos.API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Adiciona um item ao pedido com base no ID fornecido.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="itemPedidoAddDTO"></param>
+        /// <returns>Pedido.</returns>
         [HttpPost("{id}/itens")]
         public async Task<ActionResult<PedidoReadDTO>> AddItemPedido(Guid id, ItemPedidoAddDTO itemPedidoAddDTO)
         {
@@ -62,6 +96,12 @@ namespace Pedidos.API.Controllers
             return Ok(pedido);
         }
 
+        /// <summary>
+        /// Atualiza um item do pedido com base no ID fornecido.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="itemPedidoUpdateDTO"></param>
+        /// <returns>Pedido.</returns>
         [HttpPut("{id}/itens")]
         public async Task<ActionResult<PedidoReadDTO>> UpdateItemPedido(Guid id, ItemPedidoUpdateDTO itemPedidoUpdateDTO)
         {
@@ -69,6 +109,12 @@ namespace Pedidos.API.Controllers
             return Ok(pedido);
         }
 
+        /// <summary>
+        /// Remove um item do pedido com base no ID fornecido.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="itemPedidoRemoveDTO"></param>
+        /// <returns>Pedido.</returns>
         [HttpDelete("{id}/itens")]
         public async Task<ActionResult<PedidoReadDTO>> RemoveItemPedido(Guid id, ItemPedidoRemoveDTO itemPedidoRemoveDTO)
         {

@@ -5,6 +5,7 @@ using Pedidos.Infrastructure.Extensions;
 using Pedidos.Infrastructure.Repositories;
 using Pedidos.API.Exceptions;
 using AutoMapper;
+using System.Reflection;
 
 namespace Pedidos.API
 {
@@ -21,7 +22,21 @@ namespace Pedidos.API
         {
             services.AddInMemoryDatabase();
             services.AddControllers();
-            services.AddSwaggerGen();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "Pedidos.API",
+                    Version = "v1",
+                    Description = "API para gerenciar pedidos e produtos"
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
             services.AddAutoMapper(typeof(Startup));
 
             services.AddScoped<IProdutoService, ProdutoService>();
@@ -40,7 +55,10 @@ namespace Pedidos.API
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pedidos.API v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pedidos.API v1");
+                });
             }
 
             app.UseRouting();
