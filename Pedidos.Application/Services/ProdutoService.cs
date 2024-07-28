@@ -17,9 +17,9 @@ namespace Pedidos.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<PaginacaoResultDTO<ProdutoReadDTO>> GetAllProdutos(int pageNumber, int pageSize)
+        public async Task<PaginacaoResultDTO<ProdutoReadDTO>> GetAllProdutos(int pageNumber, int pageSize, string? titulo, float? precoMin, float? precoMax)
         {
-            var (produtos, totalItems) = await _produtoRepository.GetAllProdutos(pageNumber, pageSize);
+            var (produtos, totalItems) = await _produtoRepository.GetAllProdutos(pageNumber, pageSize, titulo, precoMin, precoMax);
             var produtosDto = _mapper.Map<IEnumerable<ProdutoReadDTO>>(produtos);
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 

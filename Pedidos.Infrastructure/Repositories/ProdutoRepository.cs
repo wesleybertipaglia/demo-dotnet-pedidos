@@ -15,10 +15,21 @@ namespace Pedidos.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<(IEnumerable<Produto> Produtos, int TotalItems)> GetAllProdutos(int pageNumber, int pageSize)
+        public async Task<(IEnumerable<Produto> Produtos, int TotalItems)> GetAllProdutos(int pageNumber, int pageSize, string? titulo, float? precoMin, float? precoMax)
         {
-            var totalItems = await _context.Produtos.CountAsync();
-            var produtos = await _context.Produtos.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            var query = _context.Produtos.AsQueryable();
+
+            if (!string.IsNullOrEmpty(titulo))
+                query = query.Where(p => p.Titulo.Contains(titulo));
+
+            if (precoMin.HasValue)
+                query = query.Where(p => p.Preco >= precoMin.Value);
+
+            if (precoMax.HasValue)
+                query = query.Where(p => p.Preco <= precoMax.Value);
+
+            var totalItems = await query.CountAsync();
+            var produtos = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
             return (produtos, totalItems);
         }
 

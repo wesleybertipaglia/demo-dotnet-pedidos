@@ -19,9 +19,9 @@ namespace Pedidos.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllPedidos(int pageNumber = 1, int pageSize = 10)
+        public async Task<IActionResult> GetAllPedidos(string? status, float? totalMin, float? totalMax, int pageNumber = 1, int pageSize = 10)
         {
-            var paginacaoResult = await _pedidoService.GetAllPedidos(pageNumber, pageSize);
+            var paginacaoResult = await _pedidoService.GetAllPedidos(pageNumber, pageSize, status, totalMin, totalMax);
             Response.Headers["X-Pagination"] = JsonSerializer.Serialize(paginacaoResult);
 
             return Ok(paginacaoResult.Items);

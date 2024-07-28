@@ -16,9 +16,9 @@ namespace Pedidos.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<PaginacaoResultDTO<PedidoReadDTO>> GetAllPedidos(int pageNumber, int pageSize)
+        public async Task<PaginacaoResultDTO<PedidoReadDTO>> GetAllPedidos(int pageNumber, int pageSize, string? status, float? totalMin, float? totalMax)
         {
-            var (pedidos, totalItems) = await _pedidoRepository.GetAllPedidos(pageNumber, pageSize);
+            var (pedidos, totalItems) = await _pedidoRepository.GetAllPedidos(pageNumber, pageSize, status, totalMin, totalMax);
             var pedidosDto = _mapper.Map<IEnumerable<PedidoReadDTO>>(pedidos);
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 

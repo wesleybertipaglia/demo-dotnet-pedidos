@@ -16,10 +16,27 @@ namespace Pedidos.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<(IEnumerable<Pedido> Pedidos, int TotalItems)> GetAllPedidos(int pageNumber, int pageSize)
+        public async Task<(IEnumerable<Pedido> Pedidos, int TotalItems)> GetAllPedidos(int pageNumber, int pageSize, string? status, float? totalMin, float? totalMax)
         {
-            var totalItems = await _context.Pedidos.CountAsync();
-            var pedidos = await _context.Pedidos.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            var query = _context.Pedidos.Include(p => p.ItensPedidos).AsQueryable();
+
+            if (!string.IsNullOrEmpty(status))
+                query = query.Where(p => p.Status.ToString().ToLower() == status.ToLower());
+
+            var pedidos = await query.ToListAsync();
+
+            if (totalMin.HasValue)
+            {
+                pedidos = pedidos.Where(p => p.ItensPedidos.Sum(i => i.Total) >= totalMin.Value).ToList();
+            }
+
+            if (totalMax.HasValue)
+            {
+                pedidos = pedidos.Where(p => p.ItensPedidos.Sum(i => i.Total) <= totalMax.Value).ToList();
+            }
+
+            var totalItems = await query.CountAsync();
+            pedidos = pedidos.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
             return (pedidos, totalItems);
         }
 
